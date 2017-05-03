@@ -3,7 +3,7 @@
 
 #define ETH_FRAME_LEN 1518
 
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <iostream>
 #include <memory.h>
 #include <netinet/in.h>
@@ -12,11 +12,15 @@
 #include <sys/socket.h>
 #include <linux/if_ether.h>
 #include <linux/if_arp.h>
+#include <arpa/inet.h>
+#include <sstream>
+#include <iomanip>
+#include <sys/ioctl.h>
 
 #include "arpreply.h"
 #include "arprequest.h"
 
-class ArpGyp 
+class ArpGyp
 {
 	public:
 		ArpGyp();
@@ -24,10 +28,11 @@ class ArpGyp
 		void mitm();
 		void flood();
 		void dos();
-	protected:
-		byte* stringToMac(std::string const& s);
-		byte* stringToIp(std::string const& s);
-		int s;
+
+		static std::array<byte,4> stringToMac(std::string const& s);
+		static void stringToIp(const std::string &src, std::array<byte,4> &dst);
+		static std::string uchar2hex(unsigned char inchar);
+		static int s;
 };
 
 #endif

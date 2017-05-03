@@ -6,10 +6,10 @@
 class MitmHandler : public ArpGyp
 {
 	public:
-		MitmHandler(std::string const& target1, std::string const& target2);
+		MitmHandler(std::string target1, std::string target2);
 		~MitmHandler();
 	private:
-		void send(std::string const& sIpAddr);
+		void send(std::array<byte,4> src_p_addr, std::array<byte,4> dst_p_addr);
 };
 
 #endif

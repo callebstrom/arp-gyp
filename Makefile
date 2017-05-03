@@ -5,7 +5,7 @@ BIN=bin/Debug
 
 CC = g++
 
-CPPFLAGS = -g -Wall -fpermissive -std=gnu++11 -pthread -Iinclude
+CPPFLAGS = -g -Wall -fpermissive -std=gnu++14 -pthread -Iinclude
 
 all: $(MYPROGRAM)
 
@@ -15,5 +15,5 @@ $(MYPROGRAM): $(SOURCE)
 clean:
 	rm $(MYPROGRAM)
 
-
-
+run:
+	@$(MAKE) && $(BIN)/$(MYPROGRAM)

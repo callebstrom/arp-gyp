@@ -3,10 +3,17 @@
 
 #include "arppacket.h"
 
-struct arpreply : public arppacket 
+struct __attribute__((packed)) ArpReply
 {
-	byte* opCode = (byte*) 0x0002;
+	unsigned short hwType = 0x0001;
+	unsigned short pType = 0x0800;
+	byte hwAddrLen = 0x06;
+	byte pAddrLen = 0x04;
+	unsigned short op = htons(ARPOP_REPLY);
+	byte srcHwAddr[6];
+	byte srcPAddr[4];
+	byte dstHwAddr[6];
+	byte dstPAddr[4];
 };
 
 #endif
-
