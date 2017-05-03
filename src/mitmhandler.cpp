@@ -54,23 +54,11 @@ void MitmHandler::send(std::array<byte,4> src_p_addr, std::array<byte,4> dst_p_a
 	ar.dst_hw_addr = dst_mac;
 	ar.dst_p_addr = dst_p_addr;
 
-	ifreq ifr;
-	int ifindex = 0;
-
-	/*retrieve ethernet interface index*/
-	strncpy(ifr.ifr_name, DEVICE, IFNAMSIZ);
-	if (ioctl(s, SIOCGIFINDEX, &ifr) == -1) {
-	   perror("SIOCGIFINDEX");
-	   exit(1);
-	}
-	ifindex = ifr.ifr_ifindex;
-	printf("Successfully got interface index: %i\n", ifindex);
-
 	// Setup socket_address struct
 	socket_address.sll_family = PF_PACKET;
 	socket_address.sll_protocol = htons(ETH_P_ARP);
 	// Set index of network interface to use
-	socket_address.sll_ifindex = ifindex;
+	socket_address.sll_ifindex = ArpGyp::GetIfIndex(DEVICE);
 	// Set frame type to ARP
 	socket_address.sll_hatype = ARPHRD_ETHER;
 	// Target is other host or broadcast
@@ -89,7 +77,7 @@ void MitmHandler::send(std::array<byte,4> src_p_addr, std::array<byte,4> dst_p_a
 	memcpy(arp_header, &ar, ARP_PACKET_LEN);
 	std::cout << "BUFFER LENGTH: " << BUF_SIZE << std::endl;
 	for (int i = 0; i < BUF_SIZE; ++i) {
-		std::cout << ArpGyp::uchar2hex(((byte*)buffer)[i]);
+		std::cout << ArpGyp::ByteToHex(((byte*)buffer)[i]);
 	}
 	std::cout << std::endl;
 

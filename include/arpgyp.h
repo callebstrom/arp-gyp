@@ -31,7 +31,8 @@ class ArpGyp
 
 		static std::array<byte,4> stringToMac(std::string const& s);
 		static void stringToIp(const std::string &src, std::array<byte,4> &dst);
-		static std::string uchar2hex(unsigned char inchar);
+		static std::string ByteToHex(unsigned char inchar);
+		static int GetIfIndex(std::string iface_s);
 		static int s;
 };
 

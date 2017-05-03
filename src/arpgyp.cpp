@@ -44,9 +44,20 @@ void ArpGyp::stringToIp(const std::string &src, std::array<byte,4> &dst) {
 
 }
 
-std::string ArpGyp::uchar2hex(unsigned char inchar)
+std::string ArpGyp::ByteToHex(byte inchar)
 {
   std::ostringstream oss (std::ostringstream::out);
   oss << std::setw(2) << std::setfill('0') << std::hex << (int)(inchar);
   return oss.str();
+}
+
+int ArpGyp::GetIfIndex(std::string iface_s) {
+	ifreq ifr;
+
+	strncpy(ifr.ifr_name, iface_s.c_str(), IFNAMSIZ);
+	if (ioctl(s, SIOCGIFINDEX, &ifr) == -1) {
+	   perror("SIOCGIFINDEX");
+	   exit(1);
+	}
+	return ifr.ifr_ifindex;
 }
